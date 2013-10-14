@@ -33,7 +33,8 @@ int gethighMETtable( string searchRegion = "" )
 
   string sample = "ll";
 
-  bool dofsprediction = true;
+  bool dofsprediction = false;
+  // bool dodataprediction = false;
 
   string variable = "mll";
   // searchRegion = "met120";
@@ -47,7 +48,7 @@ int gethighMETtable( string searchRegion = "" )
 
   //get histos from file
   h_data  =     (TH1F*)file->Get(Form("h_%s_%s_data_%s"  , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_data");
-  h_zjets =     (TH1F*)file->Get(Form("h_%s_%s_zjets_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
+  h_zjets =     (TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
   h_wz    =     (TH1F*)file->Get(Form("h_%s_%s_wz_%s"    , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_wz");
   h_zz    =     (TH1F*)file->Get(Form("h_%s_%s_zz_%s"    , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zz");
   h_ttbar =     (TH1F*)file->Get(Form("h_%s_%s_ttbar_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_ttbar");
@@ -59,7 +60,7 @@ int gethighMETtable( string searchRegion = "" )
   h_smzh  =     (TH1F*)file->Get(Form("h_%s_%s_smzh_%s"  , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_smzh");
   h_tbz   =     (TH1F*)file->Get(Form("h_%s_%s_tbz_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_tbz");
 
-  h_allmc =     (TH1F*)file->Get(Form("h_%s_%s_zjets_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc");
+  h_allmc =     (TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc");
 
 
 
@@ -68,10 +69,11 @@ int gethighMETtable( string searchRegion = "" )
 	  h_allmc -> Scale( 4.0 / 5.3 );
 	  h_zjets -> Scale( 4.0 / 5.3 );
 	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag1_met120" ){
-	  h_allmc -> Scale( 3.8 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)));
-	  h_zjets -> Scale( 3.8 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)));
-	  h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)));
+
+	if( sample == "ll" && searchRegion == "2btag1_met120" ){
+	  h_allmc -> Scale( 3.8 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
+	  h_zjets -> Scale( 3.8 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
+	  // h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)));
 	}
 	if( dofsprediction && sample == "ll" && searchRegion == "2btag2_met120" ){
 	  h_allmc -> Scale( 0.9 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)));
@@ -111,6 +113,10 @@ int gethighMETtable( string searchRegion = "" )
 	  h_zjets -> Scale( 16.9 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)));
 	  h_fsbg  -> Scale( 14.3 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)));
 	}
+
+	h_zjets ->Add((TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )));
+	h_allmc ->Add((TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )));
+
   }
 
 
@@ -166,12 +172,12 @@ int gethighMETtable( string searchRegion = "" )
   samplename.push_back("ratio");
   }
   Double_t errors[samplename.size()];
-  Int_t lowcut = 81;
-  Int_t highcut = 101;
+  Int_t lowcut = 21;
+  Int_t highcut = 50;
 
-  Float_t zjetssys = 0.0;
-  Float_t fsbkgsys = 0.0;
-  Float_t mcbkgsys = 0.0;
+  Float_t zjetssys = 0.25;
+  Float_t fsbkgsys = 0.40;
+  Float_t mcbkgsys = 0.50;
 
   if( dofsprediction && sample != "em" ){
 	yields.push_back(h_zjets -> IntegralAndError( h_data->FindBin(lowcut), h_data->FindBin(highcut), errors[0]));
@@ -187,26 +193,26 @@ int gethighMETtable( string searchRegion = "" )
 	yields.push_back(yields.at(9)/yields.at(8));
 
 	//calculate systematic uncertainties
-	errors[0] = sqrt(pow(errors[0],2) + yields.at(0)*zjetssys );
+	errors[0] = sqrt(pow(errors[0],2) + pow(yields.at(0)*zjetssys, 2) );
 
-	errors[3] = sqrt(pow(errors[3],2) + yields.at(3)*fsbkgsys );
+	errors[3] = sqrt(pow(errors[3],2) + pow(yields.at(3)*fsbkgsys,2 ) );
 
-	errors[1] = sqrt(pow(errors[1],2) + yields.at(1)*mcbkgsys );
-	errors[2] = sqrt(pow(errors[2],2) + yields.at(2)*mcbkgsys );
-	errors[4] = sqrt(pow(errors[4],2) + yields.at(4)*mcbkgsys );
-	errors[5] = sqrt(pow(errors[5],2) + yields.at(5)*mcbkgsys );
-	errors[6] = sqrt(pow(errors[6],2) + yields.at(6)*mcbkgsys );
-	errors[7] = sqrt(pow(errors[7],2) + yields.at(7)*mcbkgsys );
+	errors[1] = sqrt(pow(errors[1],2) + pow(yields.at(1)*mcbkgsys,2 ) );
+	errors[2] = sqrt(pow(errors[2],2) + pow(yields.at(2)*mcbkgsys,2 ) );
+	errors[4] = sqrt(pow(errors[4],2) + pow(yields.at(4)*mcbkgsys,2 ) );
+	errors[5] = sqrt(pow(errors[5],2) + pow(yields.at(5)*mcbkgsys,2 ) );
+	errors[6] = sqrt(pow(errors[6],2) + pow(yields.at(6)*mcbkgsys,2 ) );
+	errors[7] = sqrt(pow(errors[7],2) + pow(yields.at(7)*mcbkgsys,2 ) );
 	
 	errors[8] = sqrt(pow(errors[8],2) 
-					 + yields.at(0)*zjetssys 
-					 + yields.at(3)*fsbkgsys
-					 + yields.at(1)*mcbkgsys 
-					 + yields.at(2)*mcbkgsys 
-					 + yields.at(4)*mcbkgsys 
-					 + yields.at(5)*mcbkgsys 
-					 + yields.at(6)*mcbkgsys 
-					 + yields.at(7)*mcbkgsys 
+					 + pow(yields.at(0)*zjetssys,2) 
+					 + pow(yields.at(3)*fsbkgsys,2)
+					 + pow(yields.at(1)*mcbkgsys,2) 
+					 + pow(yields.at(2)*mcbkgsys,2) 
+					 + pow(yields.at(4)*mcbkgsys,2) 
+					 + pow(yields.at(5)*mcbkgsys,2) 
+					 + pow(yields.at(6)*mcbkgsys,2) 
+					 + pow(yields.at(7)*mcbkgsys,2) 
 					 );
 	
 	errors[10] = err_mult( yields.at(9), yields.at(8), errors[9], errors[8], yields.at(9)/yields.at(8));
@@ -223,8 +229,34 @@ int gethighMETtable( string searchRegion = "" )
 	yields.push_back(h_vvv   -> IntegralAndError( lowcut, highcut, errors[8]));
 	yields.push_back(h_tbz   -> IntegralAndError( lowcut, highcut, errors[9]));
 	yields.push_back(h_allmc -> IntegralAndError( lowcut, highcut, errors[10]));
-	yields.push_back(h_data  -> IntegralAndError( h_data->FindBin(81.0), h_data->FindBin(101.0), errors[11]));
+	yields.push_back(h_data  -> IntegralAndError( h_data->FindBin(lowcut), h_data->FindBin(highcut), errors[11]));
 	yields.push_back(yields.at(11)/yields.at(10));
+
+
+	errors[0] = sqrt(pow(errors[0],2) + pow(yields.at(0)*mcbkgsys,2 ) );
+	errors[1] = sqrt(pow(errors[1],2) + pow(yields.at(1)*mcbkgsys,2 ) );
+	errors[2] = sqrt(pow(errors[2],2) + pow(yields.at(2)*mcbkgsys,2 ) );
+	errors[3] = sqrt(pow(errors[3],2) + pow(yields.at(3)*mcbkgsys,2 ) );
+	errors[4] = sqrt(pow(errors[4],2) + pow(yields.at(4)*mcbkgsys,2 ) );
+	errors[5] = sqrt(pow(errors[5],2) + pow(yields.at(5)*mcbkgsys,2 ) );
+	errors[6] = sqrt(pow(errors[6],2) + pow(yields.at(6)*mcbkgsys,2 ) );
+	errors[7] = sqrt(pow(errors[7],2) + pow(yields.at(7)*mcbkgsys,2 ) );
+	errors[8] = sqrt(pow(errors[8],2) + pow(yields.at(8)*mcbkgsys,2 ) );
+	errors[9] = sqrt(pow(errors[9],2) + pow(yields.at(9)*mcbkgsys,2 ) );
+	
+	errors[10] = sqrt(pow(errors[10],2) 
+					 + pow(yields.at(0)*zjetssys,2) 
+					 + pow(yields.at(3)*fsbkgsys,2)
+					 + pow(yields.at(1)*mcbkgsys,2) 
+					 + pow(yields.at(2)*mcbkgsys,2) 
+					 + pow(yields.at(4)*mcbkgsys,2) 
+					 + pow(yields.at(5)*mcbkgsys,2) 
+					 + pow(yields.at(6)*mcbkgsys,2) 
+					 + pow(yields.at(7)*mcbkgsys,2) 
+					 + pow(yields.at(8)*mcbkgsys,2) 
+					 + pow(yields.at(9)*mcbkgsys,2) 
+					 );
+
   errors[12] = err_mult( yields.at(11), yields.at(10), errors[11], errors[10], yields.at(11)/yields.at(10));
   }
   
@@ -235,7 +267,7 @@ cout<<"\\begin{tabular}{l|c}"<<endl;
 cout<<"\\hline"<<endl;
 cout<<"\\hline"<<endl;
 
-  cout<<"     & "<<"$81 < M_{\\ell\\ell} < 101 GeV$" << "\\\\"<<endl;
+  cout<<"     & "<<"$20 < M_{\\ell\\ell} < 50 GeV$" << "\\\\"<<endl;
   cout<<"\\hline"<<endl;
   for( size_t i = 0; i < samplename.size()-1; i++ ){
 	cout<<samplename.at(i)<<" & "<<Form(" %.1f $\\pm$ %.1f \\\\", yields.at(i), errors[i] )<<endl;

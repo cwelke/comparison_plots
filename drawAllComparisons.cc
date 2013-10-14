@@ -21,10 +21,13 @@ using namespace std;
 
 #include "/Users/vincewelke/rootTools/histUtils.cc"
 
-bool dofsprediction = true;
-bool dofsrescale = true;
+bool blindedge = false;
+bool dozjetsscaling = true;
+bool dofsprediction = false;
+// bool dofsprediction = true;
+bool dofsrescale = false;
 bool drawsinglehist = false;
-string date = "250913";
+string date = "081013";
 
 void drawPlot( TFile * &filename, string variable, string sample, string searchRegion, Float_t binwidth, Float_t xmin, Float_t xmax, Float_t ymin, Float_t ymax, bool islog, bool isblind );
 void makeAndSavePlot( string variable, string searchRegion, Float_t binwidth, Float_t xmin, Float_t xmax, Float_t ymin, Float_t ymax, bool islog, bool isblind );
@@ -35,72 +38,82 @@ int drawAllComparisons()
 
   bool isblind  = true;
 
-  makeAndSavePlot( "met"    , "bveto1" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "met"    , "bveto2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "met"    , "bveto3" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "met"    , "bveto4" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "met"    , "bveto1" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "met"    , "bveto2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "met"    , "bveto3" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "met"    , "bveto4" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
 
-  makeAndSavePlot( "met"    , "2btag1" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false   );
-  makeAndSavePlot( "met"    , "2btag2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , isblind );
-  makeAndSavePlot( "met"    , "2btag3" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false   );
-  makeAndSavePlot( "met"    , "2btag4" , 10.0,  0.0, 200.0, 1e-2, 10.0e1, true , false  );
+  // makeAndSavePlot( "met"    , "2btag1" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false   );
+  // makeAndSavePlot( "met"    , "2btag2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , isblind );
+  // makeAndSavePlot( "met"    , "2btag3" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false   );
+  // makeAndSavePlot( "met"    , "2btag4" , 10.0,  0.0, 200.0, 1e-2, 10.0e1, true , false  );
 
-  makeAndSavePlot( "njets"  , "dilep" ,  1.0, 0.0,  15.0,  1e-3, 1e2, true, isblind );
-  // // makeAndSavePlot( "mll"    , "dilep" , 10.0, 50.0, 200.0, 1e-3, 1e2, true , isblind );
-  // // makeAndSavePlot( "mll"    , "sig"   , 10.0, 50.0, 200.0, 1e-3, 1e2, true , isblind );
+  makeAndSavePlot( "nbtags"  , "dilep" ,  1.0, 0.0,  15.0,  1e-3, 1e2, true, isblind );
 
-  // makeAndSavePlot( "nbtags" , "mjj150",  1.0, 0.0,  4.0,  1e-1, 1e2, false, isblind );
-  // makeAndSavePlot( "nbtags" , "dilep",  1.0, 0.0,  4.0,  1e-1, 1e2, false, isblind );
-  // makeAndSavePlot( "csv1" , "dilep",  1.0, 0.0,  1.0,  1e-1, 1e2, false, isblind );
-  // makeAndSavePlot( "csv2" , "dilep",  1.0, 0.0,  1.0,  1e-1, 1e2, false, isblind );
-  // makeAndSavePlot( "csv3" , "dilep",  1.0, 0.0,  1.0,  1e-1, 1e2, false, isblind );
-  // makeAndSavePlot( "nbtags" , "mt2j"  ,  1.0, 0.0,  10.0,  1e-1, 1e2, false, isblind );
 
-  // makeAndSavePlot( "zpt"    , "dilep" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "zpt"    , "sig" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
-
-  // makeAndSavePlot( "mll"    , "2jet" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "mll"    , "3jet" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "mll"    , "mt2j" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "mll"    , "mjj150" , 10.0, 50.0, 200.0, 1e-1, 1e2, true , isblind );
 
   // makeAndSavePlot( "met"    , "mt2j"         , 10.0, 0.0, 200.0, 1e-2, 1e2, true , false );
   // makeAndSavePlot( "met"    , "dilep"        , 10.0, 0.0, 200.0, 1e-2, 1e2, true , false );
   // makeAndSavePlot( "met"    , "sig"          , 10.0, 0.0, 200.0, 1e-2, 1e2, true , false );
 
-  makeAndSavePlot( "mll"    , "met80"        , 5.0, 0.0, 200.0, 1e-1, 2.5e1, false, isblind );
-  makeAndSavePlot( "mll"    , "met100"       , 5.0, 0.0, 200.0, 1e-1, 1.5e1, false, isblind );
+  makeAndSavePlot( "mll"    , "met80"        , 20.0, 0.0, 200.0, 1e-1, 2.5e1, false, isblind );
+  makeAndSavePlot( "mll"    , "met100"       , 20.0, 0.0, 200.0, 1e-1, 1.5e1, false, isblind );
   makeAndSavePlot( "mll"    , "met120"       , 10.0, 0.0, 200.0, 1e-1, .5e1, false, isblind );
 
-  makeAndSavePlot( "mll"    , "bveto1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
-  makeAndSavePlot( "mll"    , "bveto2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
-  makeAndSavePlot( "mll"    , "bveto3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
-  makeAndSavePlot( "mll"    , "bveto4_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  Float_t nmll_bins = 10.0;
 
-  makeAndSavePlot( "mll"    , "2btag1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
-  makeAndSavePlot( "mll"    , "2btag2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , true );
-  makeAndSavePlot( "mll"    , "2btag3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
-  makeAndSavePlot( "mll"    , "2btag4_met120" , 10.0,  0.0, 200.0, 1e-2, 10.0e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto1_met120" , nmll_bins,  0.0, 200.0, 1e-2, 4.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto2_met120" , nmll_bins,  0.0, 200.0, 1e-2, 1.2e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto3_met120" , nmll_bins,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto4_met120" , nmll_bins,  0.0, 200.0, 1e-2, 3.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag1_met120" , nmll_bins,  0.0, 200.0, 1e-2, 3.0e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag2_met120" , nmll_bins,  0.0, 200.0, 1e-2, 1.5e1, false , true );
+  // makeAndSavePlot( "mll"    , "2btag3_met120" , nmll_bins,  0.0, 200.0, 1e-2, 4.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag4_met120" , nmll_bins,  0.0, 200.0, 1e-2, 12.5e1, false , false );
 
-  makeAndSavePlot( "mt2"    , "2btag1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "mt2"    , "2btag2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , true );
-  makeAndSavePlot( "mt2"    , "2btag3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "mt2"    , "2btag4_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "mt2"    , "bveto1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "mt2"    , "bveto2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , true );
-  makeAndSavePlot( "mt2"    , "bveto3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
-  makeAndSavePlot( "mt2"    , "bveto4_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "mll"    , "bveto1_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 2.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto2_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 1.0e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto3_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "bveto4_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag1_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag2_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , true );
+  // makeAndSavePlot( "mll"    , "2btag3_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , false );
+  // makeAndSavePlot( "mll"    , "2btag4_met120_mt2" , nmll_bins,  0.0, 200.0, 1e-2, 0.5e1, false , false );
 
-  // // makeAndSavePlot( "mbb"    , "dilep" , 25.0, 0.0, 350.0,  0e0, 1e2, false, isblind );
+  // makeAndSavePlot( "mt2"    , "2btag1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "2btag2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , true );
+  // makeAndSavePlot( "mt2"    , "2btag3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "2btag4_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "bveto1_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "bveto2_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , true );
+  // makeAndSavePlot( "mt2"    , "bveto3_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "bveto4_met120" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
 
+  // makeAndSavePlot( "mt2"    , "2btag1_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, false , false );
+  // makeAndSavePlot( "mt2"    , "2btag2_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , true );
+  // makeAndSavePlot( "mt2"    , "2btag3_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "mt2"    , "2btag4_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "mt2"    , "bveto1_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "mt2"    , "bveto2_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , true );
+  // makeAndSavePlot( "mt2"    , "bveto3_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+  // makeAndSavePlot( "mt2"    , "bveto4_met120_otfmt2" , 10.0,  0.0, 200.0, 1e-2, 1.5e1, true , false );
+
+
+
+
+  // makeAndSavePlot( "mbb"    , "dilep" , 25.0, 0.0, 350.0,  0e0, 1e2, false, isblind );
   // makeAndSavePlot( "mbb"    , "met80" , 50.0, 0.0, 450.0, 1e-1, 1.5e1, false, isblind );
   // makeAndSavePlot( "mbb"    , "met100", 50.0, 0.0, 450.0, 1e-1, 1.5e1, false, isblind );
   // makeAndSavePlot( "mbb"    , "met120", 25.0, 0.0, 450.0, 1e-1, 12e0, false, isblind );
-  // makeAndSavePlot( "met"    , "dilep" ,  2.0, 0.0,  80.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "zpt"    , "dilep" , 10.0, 0.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "zpt"    , "sig"   , 10.0, 0.0, 200.0, 1e-1, 1e2, true , isblind );
-  // makeAndSavePlot( "hpt"    , "dilep" , 10.0, 0.0, 200.0, 1e-1, 1e2, false , isblind );
+  // // makeAndSavePlot( "met"    , "dilep" ,  2.0, 0.0,  80.0, 1e-1, 1e2, true , isblind );
+  // // makeAndSavePlot( "zpt"    , "dilep" , 10.0, 0.0, 200.0, 1e-1, 1e2, true , isblind );
+  // // makeAndSavePlot( "zpt"    , "sig"   , 10.0, 0.0, 200.0, 1e-1, 1e2, true , isblind );
+  // // makeAndSavePlot( "hpt"    , "dilep" , 10.0, 0.0, 200.0, 1e-1, 1e2, false , isblind );
+
+
   // makeAndSavePlot( "mt2b"   , "dilep" , 25.0, 0.0, 350.0, 1e-1, 1e2, true , isblind );
+
+
 
   // makeAndSavePlot( "mt2b"   , "sig", 10.0, 0.0, 300.0, 1e-1, 1e2, true, false );
 
@@ -127,19 +140,19 @@ void makeAndSavePlot( string variable, string searchRegion, Float_t binwidth, Fl
 
   for( size_t ind = 0; ind < channel.size(); ind++ ){
 
-  c1->cd();
-  c1->cd(ind+1);
-  drawsinglehist = false;
-  drawPlot( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
-  c1->cd(ind+1);
-  drawRatio( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
+	c1->cd();
+	c1->cd(ind+1);
+	drawsinglehist = false;
+	drawPlot( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
+	c1->cd(ind+1);
+	drawRatio( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
 
-  csave->cd();
-  drawsinglehist = true;
-  drawPlot( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
-  csave->cd();
-  drawRatio( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
-  csave->cd()->SaveAs(Form( "~/Desktop/ZH_Plots/%s/data_bg/single_events/%s_%s_%s_comparison_plot.pdf", date.c_str(), variable.c_str(), searchRegion.c_str(), channel.at(ind).c_str() ));
+	csave->cd();
+	drawsinglehist = true;
+	drawPlot( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
+	csave->cd();
+	drawRatio( file, variable, channel.at(ind), searchRegion, binwidth, xmin, xmax, ymin, ymax, islog, isblind );
+	csave->cd()->SaveAs(Form( "~/Desktop/ZH_Plots/%s/data_bg/single_events/%s_%s_%s_comparison_plot.pdf", date.c_str(), variable.c_str(), searchRegion.c_str(), channel.at(ind).c_str() ));
 
   }
 
@@ -190,8 +203,22 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
   //get histos from file
   h_data  =     (TH1F*)file->Get(Form("h_%s_%s_data_%s"  , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_data");
 
-  if( true && sample != "em" ){	h_zjets = (TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
-  }else{            h_zjets = (TH1F*)file->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");  }
+  if( searchRegion == "2btag3_met120" && sample == "ll" && variable == "mll" ){
+  	h_zjets = (TH1F*)file->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
+  	h_allmc = (TH1F*)file->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc");
+  	h_zjets -> Scale(0.0);
+  	h_allmc -> Scale(0.0);
+  }else{
+
+	// if( dozjetsscaling && sample != "em" ){	
+	if( dozjetsscaling && sample != "em" ){	
+	  h_zjets = (TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
+	  h_allmc = (TH1F*)file->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc");
+	}else{ 
+	  h_zjets = (TH1F*)file->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets"); 
+	  h_allmc = (TH1F*)file->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc"); 
+	}
+  }
   
   h_fsbg  =     (TH1F*)file->Get(Form("h_%s_em_data_%s"  , variable.c_str(),                 searchRegion.c_str() )) -> Clone("h_fsbg");
   // h_zjets =     (TH1F*)file->Get(Form("h_%s_%s_zjets_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_zjets");
@@ -204,8 +231,6 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
   h_vvv   =     (TH1F*)file->Get(Form("h_%s_%s_vvv_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_vvv");
   h_smzh  =     (TH1F*)file->Get(Form("h_%s_%s_smzh_%s"  , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_smzh");
   h_tbz   =     (TH1F*)file->Get(Form("h_%s_%s_tbz_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_tbz");
-
-  h_allmc =     (TH1F*)file->Get(Form("h_%s_%s_zjets_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_allmc");
 
   hists.insert ( pair<string,TH1F*>("h_data",  h_data  ) ); 
   hists.insert ( pair<string,TH1F*>("h_fsbg",  h_fsbg  ) ); 
@@ -244,64 +269,94 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
 	  h_fsbg -> Scale(0.09);
 	}
 	if( dofsrescale && sample != "em" && searchRegion == "bveto3" ){
-	  h_fsbg -> Scale(0.14);
+	  h_fsbg -> Scale(0.13);
 	}
 	if( dofsrescale && sample != "em" && searchRegion == "bveto4" ){
-	  h_fsbg -> Scale(0.12);
+	  h_fsbg -> Scale(0.13);
 	}
   }
 
   if( variable == "mll" ){
-	if( dofsprediction && sample == "ll" && searchRegion == "met120" ){
+	if( dofsrescale && sample == "ll" && searchRegion == "met120" ){
 	  h_allmc -> Scale( 4.0 / 5.3 );
 	  h_zjets -> Scale( 4.0 / 5.3 );
 	  // h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)));
 	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag1_met120" ){
-	  h_allmc -> Scale( 3.8 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 3.8 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	  // h_fsbg -> Scale(0.819);
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag2_met120" ){
-	  h_allmc -> Scale( 0.9 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 0.9 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 1.2 / h_fsbg  -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	  // h_fsbg -> Scale(1.2/2.9);
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag3_met120" ){
-	  h_allmc -> Scale( 0.9 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 0.9 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 44.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	  // h_fsbg -> Scale(44.2/45.6);
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag4_met120" ){
-	  h_allmc -> Scale( 1.6 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 1.6 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 88.9 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	  // h_fsbg -> Scale(88.9/89.2);
+
+	//do FS rescaling
+	if( dofsrescale ){
+	  if( sample == "ll" && searchRegion == "2btag1_met120" ){
+		h_fsbg -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag2_met120" ){
+		h_fsbg -> Scale( 1.2 / h_fsbg  -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag3_met120" ){
+		h_fsbg -> Scale( 44.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag4_met120" ){
+		h_fsbg -> Scale( 88.9 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+
+	  if( sample == "ll" && searchRegion == "bveto1_met120" ){
+		h_fsbg -> Scale( 12.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto2_met120" ){
+		h_fsbg -> Scale( 2.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto3_met120" ){
+		h_fsbg -> Scale( 6.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto4_met120" ){
+		h_fsbg -> Scale( 14.3 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+	  }
 	}
 
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto1_met120" ){
-	  h_allmc -> Scale( 34.8 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 34.8 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 12.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
+	//do zjets rescaling
+	if( dozjetsscaling ){
+	  if( sample == "ll" && searchRegion == "2btag1_met120" ){
+		h_allmc -> Scale( 3.8 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 3.8 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag2_met120" ){
+		h_allmc -> Scale( 0.9 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 0.9 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag3_met120" ){
+		h_allmc -> Scale( 0.9 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 0.9 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag4_met120" ){
+		h_allmc -> Scale( 1.6 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 1.6 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+
+	  if( sample == "ll" && searchRegion == "bveto1_met120" ){
+		h_allmc -> Scale( 34.8 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 34.8 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto2_met120" ){
+		h_allmc -> Scale( 3.7 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 3.7 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto3_met120" ){
+		h_allmc -> Scale( 4.1 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 4.1 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto4_met120" ){
+		h_allmc -> Scale( 16.9 / h_allmc -> Integral(h_allmc-> FindBin(81), h_allmc-> FindBin(101)-1));
+		h_zjets -> Scale( 16.9 / h_zjets -> Integral(h_zjets-> FindBin(81), h_zjets-> FindBin(101)-1));
+	  }
+
+	  if( !dofsprediction ){
+		if( dozjetsscaling && sample != "em" ){
+		  h_zjets -> Add( (TH1F*)file->Get(Form("h_%s_%s_zjetstt_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
+		  h_allmc -> Add( (TH1F*)file->Get(Form("h_%s_%s_zjetstt_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );		
+		}
+	  }
+
 	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto2_met120" ){
-	  h_allmc -> Scale( 3.7 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 3.7 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 2.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto3_met120" ){
-	  h_allmc -> Scale( 4.1 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 4.1 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 6.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto4_met120" ){
-	  h_allmc -> Scale( 16.9 / h_allmc -> Integral(h_allmc->FindBin(81), h_allmc->FindBin(101)-1));
-	  h_zjets -> Scale( 16.9 / h_zjets -> Integral(h_zjets->FindBin(81), h_zjets->FindBin(101)-1));
-	  h_fsbg  -> Scale( 14.3 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
+
   }
 
   if( dofsprediction && sample == "mm" ){
@@ -360,7 +415,7 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
   }
 
   Double_t maxy = 0.0;
-  if ( h_data  -> GetMaximum() > ymax ){ maxy = h_data  -> GetMaximum();
+  if ( h_data  -> GetMaximum() > ymax ){       maxy = h_data  -> GetMaximum();
   }else if ( h_allmc -> GetMaximum() > ymax ){ maxy = h_allmc -> GetMaximum();
   }else{ maxy = ymax; }
   
@@ -380,6 +435,13 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
 
 
   if( isblind ){
+	if( variable == "mt2" && sample != "em" && searchRegion == "2btag2_met120" ){ 
+	  h_data -> Scale (0.0);
+	}
+	if( variable == "mt2" && sample != "em" && searchRegion == "2btag2_met120_otfmt2" ){ 
+	  h_data -> Scale (0.0);
+	}
+
 	if( variable == "met" && sample != "em" ){ 
 	  for ( Int_t bini = h_data -> FindBin(80.0); bini < h_data -> GetNbinsX() + 1; bini++ ){
 		h_data  -> SetBinContent( bini, 0.0 );
@@ -406,10 +468,12 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
 	  }
 	}
   }
-  
-  if( variable == "mll" && TString(searchRegion).Contains("met120") ){  
-	for ( Int_t bini = 0; bini <= h_data -> FindBin(70.0); bini++ ){
-	  h_data  -> SetBinContent( bini, 0.0 );
+
+  if( blindedge ){  
+	if( variable == "mll" && TString(searchRegion).Contains("met120") ){  
+	  for ( Int_t bini = 0; bini <= h_data -> FindBin(70.0); bini++ ){
+		h_data  -> SetBinContent( bini, 0.0 );
+	  }
 	}
   }
 
@@ -464,7 +528,7 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
   l1->SetShadowColor(kWhite);    
   l1->SetFillColor(kWhite);    
   l1->AddEntry(h_data  , "Data"       , "lp");
-  if( dofsprediction && sample == "ll" ){
+  if( dofsprediction && sample != "em" ){
 	l1->AddEntry(h_zjets , "Z+Jets"     , "f");
 	l1->AddEntry(h_fsbg  , "FS Bkg"     , "f");
 	l1->AddEntry(h_wz    , "WZ"         , "f");
@@ -501,95 +565,121 @@ void drawPlot( TFile * &filename, string variable, string sample, string searchR
 void drawRatio( TFile * &filename, string variable, string sample, string searchRegion, Float_t binwidth, Float_t xmin, Float_t xmax, Float_t ymin, Float_t ymax, bool islog, bool isblind )
 {
 
-  // bool dofsprediction = true;
-
-
-  TH1F * h_mc = NULL;
+  TH1F * h_mc   = NULL;
   TH1F * h_data = NULL;
 
   h_data = (TH1F*)filename->Get(Form("h_%s_%s_data_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_data");
-  if( true && sample != "em" ){ h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");
-  }else{            h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc"); }
+  if( dozjetsscaling && sample != "em" ){ h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");
+  }else{                                  h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc"); }
 
-  // TH1F * h_data =   (TH1F*)filename->Get(Form("h_%s_%s_data_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_data");
-  TH1F * h_fsbg =   (TH1F*)filename->Get(Form("h_%s_em_data_%s" , variable.c_str(),                 searchRegion.c_str() )) -> Clone("h_fsbg");
-  // TH1F * h_mc =     (TH1F*)filename->Get(Form("h_%s_%s_zjets_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");
+  TH1F * h_fsbg = NULL;
+  if( dofsprediction ) {
+	h_fsbg = (TH1F*)filename->Get(Form("h_%s_em_data_%s" , variable.c_str(),                 searchRegion.c_str() )) -> Clone("h_fsbg");
 
-  // h_data = (TH1F*)filename->Get(Form("h_%s_%s_data_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_data");
-  // if( splitzjets && sample != "em" ){ h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjetsll_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");
-  // }else{            h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjets_%s"   , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc"); }
+	if( variable == "met" ){
+	  if( dofsrescale && sample != "em" && searchRegion == "2btag1" ){
+		h_fsbg -> Scale(0.11);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "2btag2" ){
+		h_fsbg -> Scale(0.11);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "2btag3" ){
+		h_fsbg -> Scale(0.15);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "2btag4" ){
+		h_fsbg -> Scale(0.15);
+	  }
+
+	  if( dofsrescale && sample != "em" && searchRegion == "bveto1" ){
+		h_fsbg -> Scale(0.09);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "bveto2" ){
+		h_fsbg -> Scale(0.09);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "bveto3" ){
+		h_fsbg -> Scale(0.13);
+	  }
+	  if( dofsrescale && sample != "em" && searchRegion == "bveto4" ){
+		h_fsbg -> Scale(0.13);
+	  }
+	}
+
+	if( variable == "mll" ){
+
+	  // if( sample == "ll" && searchRegion == "met120" ){
+	  // 	// h_mc -> Scale( 4.0 / 5.3 );
+	  // 	h_mc -> Scale( 3.8 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
+	  // 	h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
+	  // }
 
 
+	  if( dofsrescale ) {
+		//do FS rescaling
+		if( sample == "ll" && searchRegion == "2btag1_met120" ){
+		  h_fsbg -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "2btag2_met120" ){
+		  h_fsbg -> Scale( 1.2 / h_fsbg  -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "2btag3_met120" ){
+		  h_fsbg -> Scale( 44.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "2btag4_met120" ){
+		  h_fsbg -> Scale( 88.9 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
 
-  if( variable == "met" ){
-	if( dofsrescale && sample != "em" && searchRegion == "2btag1" ){
-	  h_fsbg -> Scale(0.11);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "2btag2" ){
-	  h_fsbg -> Scale(0.11);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "2btag3" ){
-	  h_fsbg -> Scale(0.15);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "2btag4" ){
-	  h_fsbg -> Scale(0.15);
-	}
-
-	if( dofsrescale && sample != "em" && searchRegion == "bveto1" ){
-	  h_fsbg -> Scale(0.09);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "bveto2" ){
-	  h_fsbg -> Scale(0.09);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "bveto3" ){
-	  h_fsbg -> Scale(0.14);
-	}
-	if( dofsrescale && sample != "em" && searchRegion == "bveto4" ){
-	  h_fsbg -> Scale(0.12);
+		if( sample == "ll" && searchRegion == "bveto1_met120" ){
+		  h_fsbg -> Scale( 12.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "bveto2_met120" ){
+		  h_fsbg -> Scale( 2.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "bveto3_met120" ){
+		  h_fsbg -> Scale( 6.2 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+		if( sample == "ll" && searchRegion == "bveto4_met120" ){
+		  h_fsbg -> Scale( 14.3 / h_fsbg -> Integral(h_fsbg -> FindBin(81), h_fsbg -> FindBin(101)-1));
+		}
+	  }
 	}
   }
 
   if( variable == "mll" ){
-	if( dofsprediction && sample == "ll" && searchRegion == "met120" ){
-	  // h_mc -> Scale( 4.0 / 5.3 );
-	  h_mc -> Scale( 3.8 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag1_met120" ){
-	  h_mc -> Scale( 3.8 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)));
-	  h_fsbg  -> Scale( 12.7 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag2_met120" ){
-	  h_mc -> Scale( 0.9 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)));
-	  h_fsbg  -> Scale( 1.2 / h_fsbg  -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag3_met120" ){
-	  h_mc -> Scale( 0.9 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)));
-	  h_fsbg  -> Scale( 44.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "2btag4_met120" ){
-	  h_mc -> Scale( 1.6 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 88.9 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
+	//do zjets rescaling
+	if( dozjetsscaling ){
+	  if( sample == "ll" && searchRegion == "2btag1_met120" ){
+		h_mc -> Scale( 3.8 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag2_met120" ){
+		h_mc -> Scale( 0.9 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag3_met120" ){
+		h_mc -> Scale( 0.9 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "2btag4_met120" ){
+		h_mc -> Scale( 1.6 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+
+	  if( sample == "ll" && searchRegion == "bveto1_met120" ){
+		h_mc -> Scale( 34.8 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto2_met120" ){
+		h_mc -> Scale( 3.7 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto3_met120" ){
+		h_mc -> Scale( 4.1 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+	  if( sample == "ll" && searchRegion == "bveto4_met120" ){
+		h_mc -> Scale( 16.9 / h_mc -> Integral(h_mc-> FindBin(81), h_mc-> FindBin(101)-1));
+	  }
+
+	  if( !dofsprediction ){
+		if( dozjetsscaling && sample != "em" ){ h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) ); }
+	  }
 	}
 
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto1_met120" ){
-	  h_mc -> Scale( 34.8 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 12.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto2_met120" ){
-	  h_mc -> Scale( 3.7 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 2.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto3_met120" ){
-	  h_mc -> Scale( 4.1 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 6.2 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
-	if( dofsprediction && sample == "ll" && searchRegion == "bveto4_met120" ){
-	  h_mc -> Scale( 16.9 / h_mc -> Integral(h_mc->FindBin(81), h_mc->FindBin(101)-1));
-	  h_fsbg  -> Scale( 14.3 / h_fsbg -> Integral(h_fsbg ->FindBin(81), h_fsbg ->FindBin(101)-1));
-	}
   }
-
+  
   if( dofsprediction && sample == "mm" ){
 	h_fsbg -> Scale(0.53/0.97);
   }
@@ -597,12 +687,12 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
 	h_fsbg -> Scale(0.43/0.97);
   }
 
-  // if( dofsprediction && sample == "ll" && searchRegion == "met120" ){
-  // 	h_fsbg -> Scale(0.819);
-  // }
-  if( true && sample != "em" ){ h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) ); }
-
   if( dofsprediction && sample != "em" ){
+
+	if( searchRegion == "2btag3_met120" && sample == "ll" && variable == "mll" ){
+	  h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");	  
+	}
+
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_wz_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_zz_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_ttv_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
@@ -612,6 +702,11 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
 	h_mc -> Add( h_fsbg );
 
   }else{
+
+	if( searchRegion == "2btag3_met120" && sample == "ll" && variable == "mll" ){
+	  h_mc = (TH1F*)filename->Get(Form("h_%s_%s_zjetstt_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) -> Clone("h_mc");	  
+	}
+
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_wz_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_zz_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
 	h_mc -> Add( (TH1F*)filename->Get(Form("h_%s_%s_ttbar_%s" , variable.c_str(), sample.c_str(), searchRegion.c_str() )) );
@@ -645,6 +740,15 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
   ratio->Divide(h_mc);
 
   if( isblind ){  
+	if( variable == "mt2" && sample != "em" && searchRegion == "2btag2_met120" ){ 
+	  h_data -> Scale (0.0);
+	  ratio  -> Scale (0.0);
+	}
+	if( variable == "mt2" && sample != "em" && searchRegion == "2btag2_met120_otfmt2" ){ 
+	  h_data -> Scale (0.0);
+	  ratio  -> Scale (0.0);
+	}
+
 	if( variable == "met" && sample != "em" ){ 
 	  for ( Int_t bini = h_data -> FindBin(80.0); bini < h_data -> GetNbinsX() + 1; bini++ ){
 		h_data  -> SetBinContent( bini, 0.0 );
@@ -678,14 +782,16 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
 	}
   }
   
-  if( variable == "mll" && TString(searchRegion).Contains("met120") ){  
-	for ( Int_t bini = 0; bini <= h_data -> FindBin(70.0); bini++ ){
-	  h_data  -> SetBinContent( bini, 0.0 );
-	  ratio   -> SetBinContent( bini, -1.0 );
+  if( blindedge ){  
+	if( variable == "mll" && TString(searchRegion).Contains("met120") ){  
+	  for ( Int_t bini = 0; bini <= h_data -> FindBin(70.0); bini++ ){
+		h_data  -> SetBinContent( bini, 0.0 );
+		ratio   -> SetBinContent( bini, -1.0 );
+	  }
 	}
   }
 
-  padr->cd();
+  padr -> cd();
   padr -> SetGridy(1);
 
   ratio -> GetXaxis() -> SetRangeUser(xmin, xmax);
@@ -694,7 +800,6 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
   ratio -> GetYaxis() -> SetTitle("#frac{Data}{MC}");
 
   ratio -> GetYaxis() -> SetNdivisions(5);
-  ratio -> GetYaxis() -> SetRangeUser( 0.0, 2.0 );
 
   // ratio -> SetMarkerSize(0.5);
   ratio->GetXaxis()->SetLabelSize(0);
@@ -704,6 +809,7 @@ void drawRatio( TFile * &filename, string variable, string sample, string search
   ratio->GetYaxis()->SetTitleOffset(0.37);
 
   ratio -> Draw("E1");
+  ratio -> GetYaxis() -> SetRangeUser( 0.5, 3.5 );
 
- return;
+  return;
 }
